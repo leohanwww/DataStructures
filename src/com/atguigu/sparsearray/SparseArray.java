@@ -3,14 +3,13 @@ package com.atguigu.sparsearray;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 
 //稀疏数组--二维数组
 public class SparseArray {
     public static void main(String[] args) {
         //原始二维数组
         //0表示无子 1表示黑子 2表示蓝子
-        int cheeseArr1[][] = new int[11][11];
+        int[][] cheeseArr1 = new int[11][11];
         cheeseArr1[1][2] = 1;
         cheeseArr1[2][3] = 2;
         cheeseArr1[6][5] = 2;
@@ -30,7 +29,7 @@ public class SparseArray {
         }
         System.out.println("sum=" + sum);
         //创建稀疏数组
-        int spraseArr[][] = new int[sum + 1][3]; //有sum+1行,3列
+        int[][] spraseArr = new int[sum + 1][3]; //有sum+1行,3列
         //给稀疏数组赋值
         //第一行是11 11 2
         spraseArr[0][0] = 11;
@@ -75,18 +74,33 @@ public class SparseArray {
         }
         //将稀疏数组保存到磁盘
         File file = new File("d:/develop/datastructures/map.data");
+        FileWriter fileWriter = null;
         try {
-            FileWriter fileWriter = new FileWriter(file,true);
-            for (int i = 0; i< spraseArr.length;i++){
-                fileWriter.write(spraseArr[i][0]);
-                fileWriter.write(spraseArr[i][1]);
-                fileWriter.write(spraseArr[i][2]);
-                fileWriter.write("\n");
-                fileWriter.close();
-            }
+            fileWriter = new FileWriter(file,true);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        try {
+
+            for (int[] ints : spraseArr) {
+                assert fileWriter != null;
+                fileWriter.write(ints[0]);
+                fileWriter.write(ints[1]);
+                fileWriter.write(ints[2]);
+                fileWriter.write("\n");
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                assert fileWriter != null;
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
 
     }
 }
