@@ -4,7 +4,7 @@ public class SingleLinkedListDemo {
     public static void main(String[] args) {
         SingleLinkedList singleLinkedList = new SingleLinkedList();
         singleLinkedList.add(new HeroNode(1, "宋江", "及时雨"));
-        singleLinkedList.add(new HeroNode(3, "武松", "打虎"));
+        singleLinkedList.add(new HeroNode(2, "武松", "打虎"));
         singleLinkedList.add(new HeroNode(5, "林冲", "豹子头"));
         singleLinkedList.add(new HeroNode(7, "卢俊义", "玉麒麟"));
         System.out.println("当前链表为:");
@@ -13,8 +13,11 @@ public class SingleLinkedListDemo {
         System.out.println("添加2号节点后的链表为:");
         singleLinkedList.list();
         System.out.println("修改2号节点");
-        singleLinkedList.update(new HeroNode(2,"张三","好人"));
+        singleLinkedList.update(new HeroNode(2, "张三", "好人"));
         System.out.println("修改2号节点后的链表为:");
+        singleLinkedList.list();
+        singleLinkedList.delete(new HeroNode(8,"吴用","智多星"));
+        System.out.println("删除8号节点后的链表为");
         singleLinkedList.list();
     }
 
@@ -100,9 +103,34 @@ class SingleLinkedList {
             //找到了需要修改的节点
             temp.name = newHeroNode.name;
             temp.nickName = newHeroNode.nickName;
-        }else {
+        } else {
             //没找到,提示
-            System.out.println("找不到需要更新的节点编号:"+newHeroNode.no);
+            System.out.println("找不到需要更新的节点编号:" + newHeroNode.no);
+        }
+    }
+
+    //删除节点
+    public void delete(HeroNode heroNode) {
+        HeroNode temp = head; //制造temp节点
+        boolean flag = false;
+        //遍历链表
+        while (true) {
+            if (temp.next == null) {
+                //到最后一个节点了
+                break;
+            }
+            if (temp.next.no==heroNode.no){//判断条件:temp.next.next==heroNode
+                //找到了要删除节点
+                flag = true;
+                break;
+            }
+            temp = temp.next;//temp后移
+        }
+        if (flag) {
+            //删除节点
+            temp.next = temp.next.next;
+        }else {
+            System.out.println("没找到要删除的节点:"+heroNode.no);
         }
     }
 
