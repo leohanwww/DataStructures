@@ -16,9 +16,64 @@ public class SingleLinkedListDemo {
         singleLinkedList.update(new HeroNode(2, "张三", "好人"));
         System.out.println("修改2号节点后的链表为:");
         singleLinkedList.list();
-        singleLinkedList.delete(new HeroNode(8,"吴用","智多星"));
+        singleLinkedList.delete(new HeroNode(8, "吴用", "智多星"));
         System.out.println("删除8号节点后的链表为");
         singleLinkedList.list();
+    }
+
+    //获取单链表节点个数
+    public static int getLength(HeroNode head) {
+        if (head.next == null) {
+            return 0;
+        }
+        int length = 0;
+        HeroNode cur = head.next;
+        while (cur != null) {
+            length++;
+            cur = cur.next;
+        }
+        return length;
+    }
+
+    //获取单链表倒数第n个节点
+    public static HeroNode getInverseNode(HeroNode head, int n) {
+        if (head.next == null) {
+            return null;
+        }
+        //获取长度
+        int length = getLength(head);
+        int number = length - n ; //节点的顺序,第number个
+        HeroNode temp = head;
+        if (n <= 0 || n > length) {
+            return null;
+        }
+        //获取第number个节点
+        for (int i = 0; i < number; i++) {
+            temp = temp.next;
+        }
+        return temp;
+
+
+    }
+
+    //将单链表反转
+    public static void reverse(HeroNode head){
+        //为空或者只有一个节点
+        if (head.next==null||head.next.next==null){
+            return;
+        }
+        HeroNode cur = head.next;
+        HeroNode next = null;//指向cur的下一个节点
+        HeroNode reverseHead = new HeroNode(0,"","");
+        //遍历原链表,取出一个放到新的头后面
+        while (cur!=null){
+            next = cur.next; //暂时保存当前节点的下一个节点
+            reverseHead.next=next; //新队列的第一个元素就是cur.next
+            reverseHead.next = cur;
+            cur = next; //让cur后移
+        }
+        //将head.next指向reverse.next
+        head.next = reverseHead.next;
     }
 
 }
@@ -27,6 +82,10 @@ public class SingleLinkedListDemo {
 class SingleLinkedList {
     //初始化头节点
     private HeroNode head = new HeroNode(0, "", "");
+
+    public HeroNode getHead() {
+        return head;
+    }
 
     //添加到链表的最后
     //找到当前链表的最后节点
@@ -119,7 +178,7 @@ class SingleLinkedList {
                 //到最后一个节点了
                 break;
             }
-            if (temp.next.no==heroNode.no){//判断条件:temp.next.next==heroNode
+            if (temp.next.no == heroNode.no) {//判断条件:temp.next.next==heroNode
                 //找到了要删除节点
                 flag = true;
                 break;
@@ -129,8 +188,8 @@ class SingleLinkedList {
         if (flag) {
             //删除节点
             temp.next = temp.next.next;
-        }else {
-            System.out.println("没找到要删除的节点:"+heroNode.no);
+        } else {
+            System.out.println("没找到要删除的节点:" + heroNode.no);
         }
     }
 
