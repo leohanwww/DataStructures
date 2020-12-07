@@ -1,5 +1,7 @@
 package com.atguigu.linkedlist;
 
+import java.util.Stack;
+
 public class SingleLinkedListDemo {
     public static void main(String[] args) {
         SingleLinkedList singleLinkedList = new SingleLinkedList();
@@ -19,6 +21,8 @@ public class SingleLinkedListDemo {
         singleLinkedList.delete(new HeroNode(8, "吴用", "智多星"));
         System.out.println("删除8号节点后的链表为");
         singleLinkedList.list();
+        System.out.println("逆序输出链表");
+        reversePrint(singleLinkedList.getHead());
     }
 
     //获取单链表节点个数
@@ -42,7 +46,7 @@ public class SingleLinkedListDemo {
         }
         //获取长度
         int length = getLength(head);
-        int number = length - n ; //节点的顺序,第number个
+        int number = length - n; //节点的顺序,第number个
         HeroNode temp = head;
         if (n <= 0 || n > length) {
             return null;
@@ -56,24 +60,43 @@ public class SingleLinkedListDemo {
 
     }
 
-    //将单链表反转
-    public static void reverse(HeroNode head){
+    //将单链表反转,从原链表一个一个取node,加到reverse链表最前面,然后将原链表的head节点的next设置为reverse链表的第一个节点
+    public static void reverse(HeroNode head) {
         //为空或者只有一个节点
-        if (head.next==null||head.next.next==null){
+        if (head.next == null || head.next.next == null) {
             return;
         }
         HeroNode cur = head.next;
-        HeroNode next = null;//指向cur的下一个节点
-        HeroNode reverseHead = new HeroNode(0,"","");
-        //遍历原链表,取出一个放到新的头后面
-        while (cur!=null){
-            next = cur.next; //暂时保存当前节点的下一个节点
-            reverseHead.next=next; //新队列的第一个元素就是cur.next
-            reverseHead.next = cur;
-            cur = next; //让cur后移
+        HeroNode next = null;//指向cur节点的下一个节点
+        HeroNode reverseHead = new HeroNode(0, "", "");
+        //遍历原链表,取出一个放到新的链表头后面
+        while (cur != null) {
+            next = cur.next; //先保存cur的下一个节点,为了链表不断
+            cur.next = reverseHead.next; // 将新链表头和老链表结合
+            reverseHead.next = cur; //将cur连接到新的链表上
+            cur = next; // 将cur往后挪一个
         }
-        //将head.next指向reverse.next
+        //将原链表头取代反转的链表头
         head.next = reverseHead.next;
+    }
+
+    //单链表逆序打印,不破坏原结构
+    public static void reversePrint(HeroNode head) {
+        if (head.next == null) {
+            return;
+        }
+        //遍历取出node
+        HeroNode cur = head.next;
+        Stack<HeroNode> stack = new Stack<>();
+        while (cur != null) {
+            //放入栈中
+            stack.push(cur);
+            cur = cur.next;
+        }
+        //将栈中节点打印
+        while (stack.size() > 0) {
+            System.out.println(stack.pop());
+        }
     }
 
 }
