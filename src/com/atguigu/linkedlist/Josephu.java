@@ -5,6 +5,8 @@ public class Josephu {
         CircleSingleLinkedList circleSingleLinkedList = new CircleSingleLinkedList();
         circleSingleLinkedList.addBoy(5);
         circleSingleLinkedList.printCurLinkedList();
+        System.out.println("出圈测试");
+        circleSingleLinkedList.countBoy(1,2,5); //2,4,1,5,3
     }
 }
 
@@ -55,6 +57,59 @@ class CircleSingleLinkedList {
             }
             curBoy = curBoy.getNext(); //curBoy后移一位
         }
+
+    }
+
+    //根据输入计算孩子出圈顺序
+
+    /**
+     * description
+     *
+     * @param startNo  从第几个小孩开始数
+     * @param countNum 数几下
+     * @param nums     共有多少个小孩
+     * @return void
+     */
+    public void countBoy(int startNo, int countNum, int nums) {
+        if (first == null || startNo < 1 || startNo > nums) {
+            //数据校验
+            System.out.println("参数有误!");
+            return;
+        }
+        //创建辅助指针helper指向最后一个
+        Boy helper = first;
+        while (true) {
+            if (helper.getNext() == first) {
+                //helper此时是最后一个节点
+                break;
+            }
+            //helper前进一位
+            helper = helper.getNext();
+        }
+        //报数前,让first和helper移动k-1次
+        for (int j=0;j<startNo-1;j++){
+            first = first.getNext();
+            helper = helper.getNext();
+        }
+        //小孩报数时,让first和helper同时移动countNum-1次
+        //此时出圈,直到圈中只有一个孩子
+        while (true){
+            //判断只剩一个孩子
+            if (first == helper){
+                break;
+            }
+            //移动first countNum-1次
+            for (int j=0;j<countNum-1;j++){
+                first = first.getNext();
+                helper = helper.getNext();
+            }
+            //此时出圈
+            System.out.printf("小孩%d出圈 \n",first.getNo());
+            first = first.getNext();
+            helper.setNext(first);
+        }
+        //循环完成还有最后一个节点,也要出圈
+        System.out.printf("最后的小孩%d出圈 \n",first.getNo());
 
     }
 
