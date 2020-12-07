@@ -145,11 +145,11 @@ class DoubleLinkedList {
     //双向链表按照编号添加
     public void addAfter(HeroNode2 heroNode) {
         //创建temp节点,位置位于添加节点的前一个
-        HeroNode2 temp = head.next;
+        HeroNode2 temp = head;
         boolean flag = false; //添加的位置是否存在,存在的话要报错
         while (true) { //此循环是为了找到temp的正确位置
-            if (temp == null) {
-                break; //temp已经是最后一个
+            if (temp.next == null && heroNode.no>temp.no) {
+                break; //temp已经是最后一个,插入到temp后面
             }
             if (heroNode.no < temp.next.no) {
                 //找到对的位置,插入到temp后面
@@ -175,6 +175,9 @@ class DoubleLinkedList {
             if (nextNode != null) {
                 heroNode.next = nextNode;
                 nextNode.pre = heroNode;
+            }
+            if (temp.next==null){
+                this.add(heroNode);
             }
 
         }
