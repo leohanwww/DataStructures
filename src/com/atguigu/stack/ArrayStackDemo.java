@@ -1,6 +1,5 @@
 package com.atguigu.stack;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ArrayStackDemo {
