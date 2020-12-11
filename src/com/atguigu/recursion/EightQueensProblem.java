@@ -26,7 +26,7 @@ public class EightQueensProblem {
             if (judge(n)){ //不冲突
                 //接着放n+1个皇后
                 check(n+1);
-            }//如果冲突,不执行if中语句,返回上面array[n]=i,此时i已经增加了1,就是列加了1
+            }//如果冲突,不执行if中语句,返回上面array[n]=i,此时i已经增加了1,就是列加了1,继续放到第二列
         }
     }
 
