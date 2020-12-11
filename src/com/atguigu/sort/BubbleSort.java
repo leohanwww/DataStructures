@@ -23,6 +23,7 @@ public class BubbleSort {
 //        System.out.println(Arrays.toString(arr));
     }
 
+    //冒泡排序
     public static void bubbleSort(int[] array) {
         //第一趟排序将最大的排在最后
         int temp = 0;
@@ -41,7 +42,7 @@ public class BubbleSort {
            // System.out.println("第" + (i + 1) + "趟排序后的数组:");
             //System.out.println(Arrays.toString(array));
             if (!flag) {
-                //一次交换都没有发生
+                //一次交换都没有发生,直接退出本次循环
                 break;
             } else {
                 flag = false;//重置flag,进行下次判断
