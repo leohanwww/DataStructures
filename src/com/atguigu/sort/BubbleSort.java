@@ -29,8 +29,8 @@ public class BubbleSort {
         int temp = 0;
         boolean flag = false;
         //冒泡排序时间复杂度O(n^2)
-        for (int i = 0; i < array.length - 1; i++) {
-            for (int j = 0; j < array.length - 1 - i; j++) {
+        for (int i = 0; i < array.length - 1; i++) { //有n元素,就要进行n-1趟的排序
+            for (int j = 0; j < array.length - 1 - i; j++) { //每次只对前n-i个元素进行比较和移动,因为最后i个已经固定是最大的
                 //如果前面的数比后面的数大,就交换
                 if (array[j] > array[j + 1]) {
                     flag = true; //用来判断是否进行了交换

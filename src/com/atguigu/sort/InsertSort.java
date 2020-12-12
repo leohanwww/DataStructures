@@ -22,10 +22,10 @@ public class InsertSort {
         int insertIndex = 0; // i - 1; //arr[1]前面的一个的下标
         for (int i = 1; i < arr.length; i++) {
             //第一轮,{104,34,119,1}
-            insertVal = arr[i];
+            insertVal = arr[i];  //待插入的数暂定为数组排除开头的一个的第1个值,为34
             insertIndex = i - 1;
             //给insertVal找到插入位置,insertIndex>=0为了数组不越界
-            while (insertIndex >= 0 && insertVal < arr[insertIndex]) {
+            while (insertIndex >= 0 && insertVal < arr[insertIndex]) {  //insertVal:34 arr[insertIndex]:101
                 //说明insertVal还没找到插入位置
                 //要将arr[insertIndex]后移{101,34,119,1}=>{101,101,119,1}
                 arr[insertIndex + 1] = arr[insertIndex];
@@ -33,7 +33,7 @@ public class InsertSort {
             }
             //当退出while循环,说明插入位置找到insertIndex+1=0
             if (insertIndex + 1 != i) { //判断是否需要赋值
-                arr[insertIndex + 1] = insertVal;
+                arr[insertIndex + 1] = insertVal; //{34,101,119,1}
             }
             //System.out.println("第"+i+"轮插入后:"+ Arrays.toString(arr));
         }
