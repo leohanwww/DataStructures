@@ -21,7 +21,7 @@ public class InsertSort {
         int insertVal = 0; //arr[i]; //待插入的数34
         int insertIndex = 0; // i - 1; //arr[1]前面的一个的下标
         for (int i = 1; i < arr.length; i++) {
-            //第一轮,{104,34,119,1}
+            //第一轮,{101,34,119,1}
             insertVal = arr[i];  //待插入的数暂定为数组排除开头的一个的第1个值,为34
             insertIndex = i - 1;
             //给insertVal找到插入位置,insertIndex>=0为了数组不越界
