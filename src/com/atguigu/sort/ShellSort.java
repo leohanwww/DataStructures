@@ -22,15 +22,15 @@ public class ShellSort {
     //逐步推导
     public static void shellSort(int[] arr) {
         int temp = 0;
-        for (int len = arr.length / 2; len > 0; len /= 2) { //分几组由数组长度决定
-            for (int i = len; i < arr.length; i++) {
+        for (int gap = arr.length / 2; gap > 0; gap /= 2) { //分几组由数组长度决定
+            for (int i = gap; i < arr.length; i++) {
                 //内循环遍历各组中所有的元素,5组,每组2个元素
-                for (int j = i - len; j >= 0; j -= len) {
+                for (int j = i - gap; j >= 0; j -= gap) {
                     //本组元素大于加上步长的那个元素,说明需要交换
-                    if (arr[j] > arr[j + len]) {
+                    if (arr[j] > arr[j + gap]) {
                         temp = arr[j];
-                        arr[j] = arr[j + len];
-                        arr[j + len] = temp;
+                        arr[j] = arr[j + gap];
+                        arr[j + gap] = temp;
                     }
                 }
             }
@@ -86,16 +86,17 @@ public class ShellSort {
 
     //对交换式shell排序改为移位法
     public static void shellSort2(int[] arr) {
-        for (int len = arr.length / 2; len > 0; len /= 2) { //分几组由数组长度决定
-            //从len个元素开始,诸葛对其所在的组进行直接插入排序
-            for (int i = len; i < arr.length; i++) {
+        for (int gap = arr.length / 2; gap > 0; gap /= 2) { //分几组由数组长度决定
+            //从gap个元素开始,逐个对其所在的组进行直接插入排序
+            for (int i = gap; i < arr.length; i++) {
                 int j = i;//待插入的位置
                 int temp = arr[j]; //待插入的数字
-                if (arr[j] < arr[j - len]) {
-                    while (j - len >= 0 && temp < arr[j - len]) {
-                        //移动
-                        arr[j] = arr[j - len];
-                        j -= len;
+                if (arr[j] < arr[j - gap]) { //需要移位
+                    //找j的位置
+                    while (j - gap >= 0 && temp < arr[j - gap]) {
+                        //不断移动
+                        arr[j] = arr[j - gap];
+                        j -= gap;
                     }
                     //当退出while循环,就给temp找到插入的位置
                     arr[j] = temp;

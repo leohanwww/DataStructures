@@ -20,13 +20,13 @@ public class InsertSort {
     public static void insertSort(int[] arr) {
         int insertVal = 0; //arr[i]; //待插入的数34
         int insertIndex = 0; // i - 1; //arr[1]前面的一个的下标
-        for (int i = 1; i < arr.length; i++) {
+        for (int i = 1; i < arr.length; i++) { //从arr[1]开始遍历,因为认为前1个为有序
             //第一轮,{101,34,119,1}
             insertVal = arr[i];  //待插入的数暂定为数组排除开头的一个的第1个值,为34
-            insertIndex = i - 1;
+            insertIndex = i - 1; //待插入的位置暂定为i的前一个位置
             //给insertVal找到插入位置,insertIndex>=0为了数组不越界
             while (insertIndex >= 0 && insertVal < arr[insertIndex]) {  //insertVal:34 arr[insertIndex]:101
-                //说明insertVal还没找到插入位置
+                //加入待插入的数值小于待插入的前一个位置
                 //要将arr[insertIndex]后移{101,34,119,1}=>{101,101,119,1}
                 arr[insertIndex + 1] = arr[insertIndex];
                 insertIndex--; //-1达到退出循环的条件
@@ -39,4 +39,23 @@ public class InsertSort {
         }
 
     }
+
+    public static void insertSort2(int[] arr) {
+        int insertVal = 0;
+        int insertIndex = 0;
+        for (int i = 1; i < arr.length; i++) {
+            insertIndex = i - 1;
+            insertVal = arr[i];
+            while (insertIndex >= 0 && insertVal < arr[insertIndex]) {
+                arr[insertIndex + 1] = arr[insertIndex];
+                insertIndex--;
+            }
+            if (insertIndex + 1 != i) {
+                arr[insertIndex + 1] = insertVal;
+            }
+        }
+
+
+    }
+
 }
