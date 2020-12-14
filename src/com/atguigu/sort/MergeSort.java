@@ -4,10 +4,20 @@ import java.util.Arrays;
 
 public class MergeSort {
     public static void main(String[] args) {
-        int[] arr = {8, 4, 5, 7, 1, 3, 6, 2};
-        int[] temp = new int[arr.length];
-        mergeSort(arr, 0, arr.length - 1, temp);
-        System.out.println("归并排序后" + Arrays.toString(arr));
+//        int[] arr = {8, 4, 5, 7, 1, 3, 6, 2};
+ //       int[] temp = new int[arr.length];
+
+//        mergeSort(arr, 0, arr.length - 1, temp);
+//        System.out.println("归并排序后" + Arrays.toString(arr));
+        int arr2[] = new int[80000];
+        int[] temp = new int[arr2.length];
+        for (int i = 0; i < arr2.length; i++) {
+            arr2[i] = (int) (Math.random() * 8000000); //生成[0,8000000)的随机数
+        }
+        long t1 = System.currentTimeMillis();
+        mergeSort(arr2,0,arr2.length-1,temp);
+        long t2 = System.currentTimeMillis();
+        System.out.println("排序使用的时间是:" + (t2 - t1) + "毫秒");
     }
 
     //分+合的方法
@@ -18,7 +28,7 @@ public class MergeSort {
             mergeSort(arr, left, mid, temp);
             //右递归分解
             mergeSort(arr, mid + 1, right, temp);
-            //每分解一次就合并一次
+            //合并
             merge(arr, left, mid, right, temp);
         }
     }
@@ -55,7 +65,7 @@ public class MergeSort {
         }
 
         //把有剩余的有序序列拷贝到temp
-        while (i <= mid) {
+        while (i <= mid) { //先拷贝小的一边的
             //左边还有剩余元素
             temp[t] = arr[i];
             t++;
@@ -72,7 +82,7 @@ public class MergeSort {
         t = 0;
         int tempLeft = left;
         while (tempLeft <= right) {
-            //第一次合并tempLeft=0, right=1, 第二次合并tempLeft=2,reght=3
+            //第一次合并tempLeft=0, right=1, 第二次合并tempLeft=2,right=3
             //第三次合并0 3 第四次合并 0 7
             arr[tempLeft] = temp[t];
             t += 1;

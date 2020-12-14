@@ -23,7 +23,7 @@ public class ShellSort {
     public static void shellSort(int[] arr) {
         int temp = 0;
         for (int gap = arr.length / 2; gap > 0; gap /= 2) { //分几组由数组长度决定
-            for (int i = gap; i < arr.length; i++) {
+            for (int i = gap; i < arr.length; i++) { //步长是gap
                 //内循环遍历各组中所有的元素,5组,每组2个元素
                 for (int j = i - gap; j >= 0; j -= gap) {
                     //本组元素大于加上步长的那个元素,说明需要交换
@@ -91,7 +91,7 @@ public class ShellSort {
             for (int i = gap; i < arr.length; i++) {
                 int j = i;//待插入的位置
                 int temp = arr[j]; //待插入的数字
-                if (arr[j] < arr[j - gap]) { //需要移位
+                if (arr[j] < arr[j - gap]) { //3<8需要移位
                     //找j的位置
                     while (j - gap >= 0 && temp < arr[j - gap]) {
                         //不断移动
