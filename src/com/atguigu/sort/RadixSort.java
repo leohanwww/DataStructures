@@ -1,19 +1,20 @@
 package com.atguigu.sort;
 
+
 import java.util.Arrays;
 
 public class RadixSort {
     public static void main(String[] args) {
-//        int[] arr = {53, 3, 542, 748, 14, 214};
-//        radixSort(arr);
-        int arr2[] = new int[80000];
+        int[] arr = {53, 3, 542, 748, 14, 214};
+        radixSort(arr);
+/*        int arr2[] = new int[80000];
         for (int i = 0; i < arr2.length; i++) {
             arr2[i] = (int) (Math.random() * 8000000); //生成[0,8000000)的随机数
         }
         long t1 = System.currentTimeMillis();
         radixSort(arr2);
         long t2 = System.currentTimeMillis();
-        System.out.println("排序使用的时间是:" + (t2 - t1) + "毫秒");
+        System.out.println("排序使用的时间是:" + (t2 - t1) + "毫秒");*/
     }
 
     //基数排序
@@ -67,7 +68,7 @@ public class RadixSort {
  /*       //第一轮 {53, 3, 542, 748, 14, 214}
         for (int j = 0; j < arr.length; j++) {
             //第一轮,放个位数,取出每个元素的个位
-            int digitOgElement = arr[j] % 10;
+            int digitOgElement = arr[j] /1 % 10;
             //放入到对应的桶中
             //[0][1] 对应个位数为0的第1个数 bucketElementCounts统计出几个个位数为0的数
             bucket[digitOgElement][bucketElementCounts[digitOgElement]] = arr[j];
