@@ -72,7 +72,7 @@ public class BinarySearch {
         } else {
             //向mid左边找和arr[mid]一样的数,加入ArrayList
             int temp_left = mid - 1;
-            while (temp_left >= 0 && (arr[temp_left] == findVal)) { //下标不能小于0且值 相等
+            while (temp_left >= 0 && (arr[temp_left] == findVal)) { //下标不能小于0且值相等
                 //加入到ArrayList中
                 list.add(temp_left);
                 temp_left--;
