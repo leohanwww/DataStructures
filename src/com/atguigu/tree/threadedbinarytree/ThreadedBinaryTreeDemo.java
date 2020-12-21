@@ -23,15 +23,15 @@ public class ThreadedBinaryTreeDemo {
 
         //测试中序线索化,找no10这个点,看left leftType right righType
         HeroNode leftNode = node5.getLeft();
-        System.out.println("node5的id:"+node5.getNo()+"node5的前驱节点是:"+leftNode);
+        System.out.println("node5的id:" + node5.getNo() + "node5的前驱节点是:" + leftNode);
         HeroNode rightNode = node5.getRight();
-        System.out.println("node5的id:"+node5.getNo()+"node5的后继节点是:"+rightNode);
+        System.out.println("node5的id:" + node5.getNo() + "node5的后继节点是:" + rightNode);
         System.out.println("使用线索化的方式遍历线索化后的二叉树");
         threadedBinaryTree.threadedList();
     }
 }
 
-//定义BinaryTree,实现线索化功能的二叉树
+//定义ThreadedBinaryTree,实现线索化功能的二叉树
 class ThreadedBinaryTree {
     private HeroNode root; //根节点
 
@@ -43,23 +43,23 @@ class ThreadedBinaryTree {
         this.root = root;
     }
 
-    public void threadedNodes(){
+    public void threadedNodes() {
         this.threadedNodes(root);
     }
 
-    //遍历中序线索化二叉树
-    public void threadedList(){
+    //遍历中序线索化二叉树,给(左右指针为空的节点)添加上线索,以加大利用
+    public void threadedList() {
         //定义变量,存储当前变量的节点
         HeroNode node = root;
-        while (node!=null){
-            //循环变量leftType==1的节点,第一个找到的是8节点
-            while (node.getLeftType()==0){ //一直找leftType==1的节点
+        while (node != null) {
+            //循环遍历leftType==1的节点,第一个找到的是8节点
+            while (node.getLeftType() == 0) { //一直找leftType==1的节点
                 node = node.getLeft();
             }
             //打印当前节点
             System.out.println(node);
             //当前节点右指针指向后继节点,就一直输出
-            if (node.getRightType()==1){
+            while (node.getRightType() == 1) {
                 node = node.getRight();
                 System.out.println(node);
             }
@@ -82,10 +82,10 @@ class ThreadedBinaryTree {
         threadedNodes(node.getLeft());
         //线索化当前节点
         if (node.left == null) {
-            node.setLeft(pre); //8节点的pre是空
-            node.setLeftType(1); //前驱节点
+            node.setLeft(pre); //8节点的left指向pre
+            node.setLeftType(1); //代表left类型是前驱节点
         }
-        //当处理3号节点时,此时3号节点在8号节点后面一个处理
+        //当处理3号节点时,设置8号节点的right为3号节点,意思就是在在下一轮的时候处理pre
         if (pre != null && pre.getRight() == null) { //pre此时是8号节点
             pre.setRight(node);
             pre.setRightType(1); //8节点 set 3节点是它的后继节点
