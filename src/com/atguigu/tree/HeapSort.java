@@ -2,7 +2,7 @@ package com.atguigu.tree;
 
 import java.util.Arrays;
 
-public class heapSort {
+public class HeapSort {
     public static void main(String[] args) {
         //升序采用大顶堆
         int[] arr = {4, 6, 8, 5, 9};
@@ -17,23 +17,24 @@ public class heapSort {
 //        adjustHeap(arr,0, arr.length); //第一次调整后:[9,6,8,5,4]
 //        System.out.println("第二次调整后:"+ Arrays.toString(arr));
         for (int i = arr.length / 2 - 1; i >= 0; i--) {
+            //第一个非叶子节点,也就是最下面最左边的非叶子节点 = arr.length/2 -1
             adjustHeap(arr, i, arr.length); //9 6 8 5 4
         }
         //交换堆顶和末尾元素
-        for (int j = arr.length-1;j>0;j--){
+        for (int j = arr.length - 1; j > 0; j--) {
             temp = arr[j];
             arr[j] = arr[0];
             arr[0] = temp;
             //重新调整结构,以arr[0]为顶点的树,对j个元素进行调整
             adjustHeap(arr, 0, j);
         }
-        System.out.println("调整后:"+ Arrays.toString(arr));
+        System.out.println("调整后:" + Arrays.toString(arr));
     }
 
     /**
-     * 将以arr[i]为父节点的子树调整成arr[i]最大
      * description
-     *
+     * 将以arr[i]为父节点的子树调整成arr[i]最大
+     * 第一个非叶子节点 = arr.length/2 -1  {4,6,8,5,9}=>{4,9,8,5,6}
      * @param arr    原数组
      * @param i      表示非叶子节点数组中索引
      * @param length 对多少个元素进行调整,是在逐渐减少的
@@ -46,14 +47,14 @@ public class heapSort {
             if (k + 1 < length && arr[k] < arr[k + 1]) { //左子节点小于右子节点的值
                 k++; //k指向右子节点
             }
-            if (arr[k] > temp) { //子节点大于父节点
+            if (arr[k] > temp) { //比较arr[i]和其自己的左子节点或者右子节点的值
                 arr[i] = arr[k]; //把较大的值赋给当前节点
-                i = k; //让i指向k,继续循环比较
+                i = k; //让i指向k,让i移动到自己的较大的子节点的位置,继续循环比较
             } else {
                 break;
             }
             //for循环结束,以i为父节点的树的最大值,放在了最顶部
-            arr[i] = temp; //将temp放到调整后的位置
+            arr[i] = temp; //将temp放到调整后的位置,i已经是子节点的位置了
         }
     }
 }
