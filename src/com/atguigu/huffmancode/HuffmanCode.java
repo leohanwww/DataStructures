@@ -1,16 +1,26 @@
 package com.atguigu.huffmancode;
 
+import java.io.*;
 import java.util.*;
 
 public class HuffmanCode {
     public static void main(String[] args) {
-        String str = "i like like like java do you like a java";
-        //字符串转为byte数组
-        byte[] strBytes = str.getBytes();
-        System.out.println(strBytes.length); //40
-        byte[] bytes = huffmanZip(strBytes);
-        System.out.println("huffmanCodeBytes:" + Arrays.toString(bytes));
-        System.out.println("长度:" + bytes.length);
+        String src = "F://src.jpg";
+        String dst = "F://dst.zip";
+        zipFile(src,dst);
+        System.out.println("压缩成功");
+//        String str = "i like like like java do you like a java";
+//        //字符串转为byte数组
+//        byte[] strBytes = str.getBytes();
+//        System.out.println(strBytes.length); //40
+//        byte[] huffmanCodesBytes = huffmanZip(strBytes);
+//        System.out.println("huffmanCodeBytes:" + Arrays.toString(huffmanCodesBytes));
+//        System.out.println("长度:" + huffmanCodesBytes.length);
+////        byte b = -88;
+////        String s = byteToBitString(true, b);
+////        System.out.println(s); //10101000
+//        byte[] decode = decode(huffmanCodes, huffmanCodesBytes);
+//        System.out.println(new String(decode)); //i like like like java do you like a java
 
 //        System.out.println(strBytes.length); //40
 //        ArrayList<Node> list = getList(strBytes);
@@ -29,14 +39,143 @@ public class HuffmanCode {
 
     }
 
-    //封装几个方法
+    //将一个文件进行压缩
+
     /**
-     *
+     * 读取文件-得到赫夫曼编码表-完成压缩
      * description
-     * @param strBytes	原始字符串对应的字节数组
+     *
+     * @param src 要压缩文件的地址
+     * @param dst 创建的压缩后的文件地址
+     * @return void
+     */
+    public static void zipFile(String src, String dst) {
+        FileInputStream is = null;
+        FileOutputStream os = null;
+        ObjectOutputStream oos = null;
+        try {//创建输入流
+            is = new FileInputStream(src);
+            //创建一个和原文件大小一样的字节数组
+            byte[] b = new byte[is.available()];
+            //读文件
+            is.read(b);
+            //使用赫夫曼编码进行编码
+            //获取对应的赫夫曼编码表
+            byte[] huffmanBytes = huffmanZip(b);
+            //创建文件输出流
+            os = new FileOutputStream(dst);
+            oos = new ObjectOutputStream(os);
+            //写入压缩后的字节数组
+            oos.writeObject(huffmanBytes);
+            //写入赫夫曼编码表,为了恢复文件时使用
+            oos.writeObject(huffmanCodes);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+                oos.close();
+                os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
+    //数据解码
+    //将[-88, -65, -56, -65, -56, -65,...转成"11000010101001......"
+    //将"11000010101001......"对照编码转成byte[]
+
+    /**
+     * 数据的解码
+     * description
+     *
+     * @param huffmanCodes     map 赫夫曼编码表
+     * @param huffmanCodeBytes 赫夫曼编码后的字节数组[-88,.....]
+     * @return byte[] 原字符串字节数组
+     */
+    public static byte[] decode(Map<Byte, String> huffmanCodes, byte[] huffmanCodeBytes) {
+        //用于接收拼接的字符串
+        StringBuilder stringBuilder = new StringBuilder();
+        //获取huffmanCodeBytes中的字节
+        for (int i = 0; i < huffmanCodeBytes.length; i++) {
+            //最后一个字节不用补高位
+            boolean flag = (i == huffmanCodeBytes.length - 1);
+            stringBuilder.append(byteToBitString(!flag, huffmanCodeBytes[i]));
+            //拼接到stringBuilder
+        }
+        HashMap<String, Byte> map = new HashMap<>();
+        //反转huffmanCodes这个map,把k,v对调
+        for (Map.Entry<Byte, String> entry : huffmanCodes.entrySet()) {
+            map.put(entry.getValue(), entry.getKey());
+        }
+        List<Byte> list = new ArrayList<>();
+        //遍历stringBuilder,按位扫描,扫描到就放到list,根据map转成string
+        for (int i = 0; i < stringBuilder.length(); ) {
+            int count = 1;
+            boolean flag = true;
+            Byte b = null;
+            while (flag) {
+                //i不动,count走,直到匹配到字符
+                String key = stringBuilder.substring(i, i + count);
+                b = map.get(key);
+                if (b == null) {
+                    //没有匹配到
+                    count++;
+                } else {
+                    //匹配到
+                    flag = false;
+                }
+            }
+            //循环结束把b加到列表中
+            list.add(b);
+            i += count;
+        }
+        byte[] b = new byte[list.size()];
+        for (int i = 0; i < b.length; i++) {
+            b[i] = list.get(i);
+        }
+        return b;
+
+    }
+
+    /**
+     * 将byte转成对应的二进制字符串
+     * description
+     *
+     * @param b    需要转换的byte
+     * @param flag 标识是否需要补高位,true表示已经是8位,不用补其8位,最后一个byte无需补高位
+     * @return java.lang.String 该byte对应的二进制字符串,按补码返回
+     */
+    public static String byteToBitString(boolean flag, byte b) {
+        int temp = b;
+        if (flag) {
+            temp |= 256;//按位与256 1 0000 0000 | 0000 0001 -> 1 0000 0001
+        }
+        String str = Integer.toBinaryString(temp);
+        if (flag) {
+            return str.substring(str.length() - 8);
+        } else {
+            return str;
+        }
+
+    }
+
+
+    //封装几个方法
+
+    /**
+     * description
+     *
+     * @param strBytes 原始字符串对应的字节数组
      * @return byte[] 哈夫曼编码后的字节数组
-    */
-    public static byte[] huffmanZip(byte[] strBytes){
+     */
+    public static byte[] huffmanZip(byte[] strBytes) {
         //获得节点列表
         ArrayList<Node> list = getList(strBytes);
         //创建huffman树
