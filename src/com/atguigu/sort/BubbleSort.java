@@ -1,6 +1,8 @@
 package com.atguigu.sort;
 
-import org.jetbrains.annotations.NotNull;
+
+
+import com.sun.istack.internal.NotNull;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -26,7 +28,7 @@ public class BubbleSort {
     }
 
     //冒泡排序
-    public static void bubbleSort(int @NotNull [] array) {
+    public static void bubbleSort(int [] array) {
         //第一趟排序将最大的排在最后
         int temp = 0;
         boolean flag = false;
