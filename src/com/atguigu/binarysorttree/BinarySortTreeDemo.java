@@ -20,6 +20,10 @@ public class BinarySortTreeDemo {
 class BinarySortTree {
     Node root;
 
+    public Node getRoot() {
+        return root;
+    }
+
     //查找节点
     public Node search(int value) {
         if (root == null) {
@@ -41,13 +45,14 @@ class BinarySortTree {
     /**
      * 删除以node为根节点的二叉排序树的最小节点
      * description
-     * @param node	传入的节点（当作二叉排序树的根节点）
+     *
+     * @param node 传入的节点（当作二叉排序树的根节点）
      * @return int 以node为根节点的二叉排序树的最小节点的值
-    */
-    public int delRightTreeMin(Node node){
+     */
+    public int delRightTreeMin(Node node) {
         Node temp = node;
         //循环查找左节点，找到最小的值
-        while (temp.left!=null){
+        while (temp.left != null) {
             temp = temp.left;
         }
         //此时temp指向最小节点
@@ -84,18 +89,27 @@ class BinarySortTree {
             } else { //targetNode是有一个子树的节点
                 //targetNode有左子节点
                 if (targetNode.left != null) {
-                    //如果是parent的左子节点
-                    if (parent.left.value == value) {
-                        parent.left = targetNode.left;
+                    if (parent != null) {
+                        //如果是parent的左子节点
+                        if (parent.left.value == value) {
+                            parent.left = targetNode.left;
+                        } else {
+                            parent.right = targetNode.left;
+                        }
                     } else {
-                        parent.right = targetNode.left;
+                        root = targetNode.left;
                     }
-                } else { //targetNode有右子节点
-                    //如果是parent的左子节点
-                    if (parent.left.value == value) {
-                        parent.left = targetNode.right;
-                    } else {
-                        parent.right = targetNode.right;
+                } else {
+                    if (parent != null) {
+                        //targetNode有右子节点
+                        //如果是parent的左子节点
+                        if (parent.left.value == value) {
+                            parent.left = targetNode.right;
+                        } else {
+                            parent.right = targetNode.right;
+                        }
+                    }else {
+                        root = targetNode.right;
                     }
                 }
             }
