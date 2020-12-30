@@ -2,6 +2,7 @@ package com.atguigu.graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class Graph {
     ArrayList<String> vertexList; //存储顶点的集合
@@ -27,8 +28,11 @@ public class Graph {
         //显示矩阵
         graph.showGraph();
         //测试dfs深度遍历
-        System.out.println("深度遍历");
-        graph.dfs();
+//        System.out.println("深度遍历");
+//        graph.dfs();
+        //测试广度优先
+        System.out.println("广度遍历");
+        graph.bfs();
     }
 
     public Graph(int n) {
@@ -97,6 +101,48 @@ public class Graph {
         for (int i = 0; i < getNumberOfVertex(); i++) {
             if (!isVisted[i]) {
                 dfs(isVisted, i);
+            }
+        }
+    }
+
+    //广度优先遍历(一个节点)
+    public void bfs(boolean[] isVisited, int i) {
+        int u; //队列头节点对应的下标
+        int w; //邻接节点下标
+        //队列,记录节点访问顺序
+        LinkedList queue = new LinkedList();
+        //访问节点,输出
+        System.out.printf(getValueByIndex(i) + "->");
+        //标记为已访问
+        isVisited[i] = true;
+        //将节点加入队列
+        queue.addLast(i);
+
+        while (!queue.isEmpty()) { //只要队列非空
+            //取出队列头节点
+            u = (Integer) queue.removeFirst();
+            //得到第一个邻接点
+            w = getFirstNeighbor(u);
+            while (w != -1) { //找到且没被访问
+                if (!isVisited[w]) {
+                    System.out.printf(getValueByIndex(w) + "->");
+                    //标记已经访问
+                    isVisited[w] = true;
+                    //入队列
+                    queue.addLast(w);
+                }
+                //w已经访问过,找u的下一个邻接点,体现出广度优先
+                w = getNextNeighbor(u, w);
+            }
+        }
+
+    }
+
+    //遍历所有节点,进行广度优先搜索
+    public void bfs() {
+        for (int i = 0; i < getNumberOfVertex(); i++) {
+            if (!isVisted[i]) {
+                bfs(isVisted, i);
             }
         }
     }
